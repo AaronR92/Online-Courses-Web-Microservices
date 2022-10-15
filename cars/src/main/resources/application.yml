@@ -1,14 +1,14 @@
 server:
-  port: 8080
+  port: 8090
 spring:
   application:
-    name: customer
+    name: cars
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: springuser
     password: ThePassword
-    url: jdbc:mysql://localhost:3306/microservice_customers
+    url: jdbc:mysql://localhost:3306/microservice_cars
 
   jpa:
     hibernate:

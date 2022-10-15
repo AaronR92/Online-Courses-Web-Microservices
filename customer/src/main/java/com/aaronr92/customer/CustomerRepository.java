@@ -9,6 +9,4 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Customer findCustomerByEmail(String email);
 
     boolean existsByEmail(String email);
-
-    boolean existsByUsername(String username);
 }

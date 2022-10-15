@@ -3,15 +3,15 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.aaronr92</groupId>
-  <artifactId>online-courses-web-microservices</artifactId>
+  <artifactId>car-dealership</artifactId>
   <version>1.0</version>
   <modules>
     <module>customer</module>
-    <module>courses</module>
+    <module>cars</module>
   </modules>
   <packaging>pom</packaging>
 
-  <name>online-courses-web-microservices</name>
+  <name>car-dealership</name>
   <url>http://maven.apache.org</url>
 
   <properties>

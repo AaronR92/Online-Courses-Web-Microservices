@@ -30,4 +30,9 @@ public class CustomerController {
     public ResponseEntity<Customer> findCustomer(@PathVariable Long customerId) {
         return ResponseEntity.ok(customerService.findCustomerById(customerId));
     }
+
+    @GetMapping
+    public ResponseEntity<Customer> findCustomer(@RequestParam String email) {
+        return ResponseEntity.ok(customerService.findCustomerByEmail(email));
+    }
 }

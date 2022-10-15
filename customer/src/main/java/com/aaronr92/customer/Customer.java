@@ -7,8 +7,7 @@ import org.springframework.data.annotation.ReadOnlyProperty;
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,11 +25,15 @@ public class Customer {
 
     private String secondName;
 
-    private String username;
-
     private String email;
+
+    private String phone;
 
     @ElementCollection
     @JsonIgnore
-    private List<Long> courses;
+    private List<Long> orders;
+
+    @ElementCollection
+    @JsonIgnore
+    private List<Long> cars;
 }
