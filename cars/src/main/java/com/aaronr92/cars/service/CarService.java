@@ -6,6 +6,7 @@ import com.aaronr92.cars.entity.CarManufacturer;
 import com.aaronr92.cars.repository.CarManufacturerRepository;
 import com.aaronr92.cars.repository.CarRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CarService {
@@ -39,6 +41,7 @@ public class CarService {
                     "This car already exist");
         }
 
+        log.info("New car added: {}", car);
         manufacturer.addCar(car);
         manufacturerRepository.save(manufacturer);
         return carRepository.save(car);
@@ -67,21 +70,22 @@ public class CarService {
     public Car updateCar(Long id, CarDto carDto) {
         Car car = findCarById(id);
 
-        Car c = Car.fromCarDto(carDto);
+        Car carFromDto = Car.fromCarDto(carDto);
 
         if (!car.getManufacturer().getName().equals(carDto.getManufacturer())) {
             CarManufacturer manufacturer = getManufacturer(carDto.getManufacturer());
-            c.setManufacturer(manufacturer);
+            carFromDto.setManufacturer(manufacturer);
         }
 
-        c.setId(car.getId());
+        carFromDto.setId(car.getId());
 
-        return carRepository.save(c);
+        return carRepository.save(carFromDto);
     }
 
     public void deleteCar(Long id) {
-        findCarById(id);
+        Car car = findCarById(id);
 
+        log.info("Car deleted: {}", car);
         carRepository.deleteById(id);
     }
 

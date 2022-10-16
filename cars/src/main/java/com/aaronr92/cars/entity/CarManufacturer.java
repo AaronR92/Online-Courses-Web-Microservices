@@ -25,6 +25,7 @@ public class CarManufacturer {
     @OneToMany(mappedBy = "manufacturer")
     @JsonManagedReference
     @ReadOnlyProperty
+    @ToString.Exclude
     private Set<Car> cars;
 
     public void addCar(Car car) {

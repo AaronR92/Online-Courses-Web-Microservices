@@ -3,6 +3,7 @@ package com.aaronr92.cars.service;
 import com.aaronr92.cars.entity.CarManufacturer;
 import com.aaronr92.cars.repository.CarManufacturerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CarManufacturerService {
@@ -45,11 +47,14 @@ public class CarManufacturerService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "This car manufacturer already exists");
 
+        log.info("Car manufacturer registration: {}", manufacturer);
         return manufacturerRepository.save(manufacturer);
     }
 
     public void deleteCarManufacturer(Long id) {
+        CarManufacturer manufacturer = findCarManufacturerById(id);
+
+        log.info("Car manufacturer removing: {}", manufacturer);
         manufacturerRepository.deleteById(id);
     }
-
 }
