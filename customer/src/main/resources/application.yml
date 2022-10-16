@@ -2,6 +2,7 @@ server:
   port: 8080
   error:
     include-message: always
+
 spring:
   application:
     name: customer
@@ -16,3 +17,8 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

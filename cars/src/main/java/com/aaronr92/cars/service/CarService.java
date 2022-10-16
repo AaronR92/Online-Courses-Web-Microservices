@@ -1,6 +1,7 @@
 package com.aaronr92.cars.service;
 
 import com.aaronr92.cars.CarDto;
+import com.aaronr92.cars.CarResponse;
 import com.aaronr92.cars.entity.Car;
 import com.aaronr92.cars.entity.CarManufacturer;
 import com.aaronr92.cars.repository.CarManufacturerRepository;
@@ -47,8 +48,14 @@ public class CarService {
         return carRepository.save(car);
     }
 
+    public CarResponse getCarById(Long id) {
+        return CarResponse.carToCarResponse(findCarById(id));
+    }
+
     public Car findCarById(Long id) {
         Optional<Car> car = carRepository.findById(id);
+
+        log.info("Get {}", car);
 
         if (car.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -57,14 +64,14 @@ public class CarService {
         return car.get();
     }
 
-    public Car findCarByName(String name) {
+    public CarResponse findCarByName(String name) {
         Car car = carRepository.findCarByName(name);
 
         if (car == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Car does not exist");
 
-        return car;
+        return CarResponse.carToCarResponse(car);
     }
 
     public Car updateCar(Long id, CarDto carDto) {

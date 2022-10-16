@@ -55,7 +55,8 @@ public class CustomerService {
 
         for (long carId :
                 customer.getCars()) {
-            Car car = restTemplate.getForObject("http://localhost:8090/api/v1/cars/{carId}",
+            Car car = restTemplate
+                    .getForObject("http://CARS/api/v1/cars/{carId}",
                     Car.class, carId);
             cars.add(car);
         }

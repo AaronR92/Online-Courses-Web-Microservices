@@ -1,6 +1,7 @@
 package com.aaronr92.cars.controller;
 
 import com.aaronr92.cars.CarDto;
+import com.aaronr92.cars.CarResponse;
 import com.aaronr92.cars.service.CarService;
 import com.aaronr92.cars.entity.Car;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,12 @@ public class CarController {
     private final CarService carService;
 
     @GetMapping(path = "{carId}")
-    public ResponseEntity<Car> getCarById(@PathVariable Long carId) {
-        return ResponseEntity.ok(carService.findCarById(carId));
+    public ResponseEntity<CarResponse> getCarById(@PathVariable Long carId) {
+        return ResponseEntity.ok(carService.getCarById(carId));
     }
 
     @GetMapping
-    public ResponseEntity<Car> getCarByName(@RequestParam String name) {
+    public ResponseEntity<CarResponse> getCarByName(@RequestParam String name) {
         return ResponseEntity.ok(carService.findCarByName(name));
     }
 

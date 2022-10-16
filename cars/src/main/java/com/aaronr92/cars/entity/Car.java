@@ -1,7 +1,7 @@
 package com.aaronr92.cars.entity;
 
 import com.aaronr92.cars.CarDto;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.annotation.ReadOnlyProperty;
@@ -41,8 +41,7 @@ public class Car {
 
     @ManyToOne
     @JoinColumn(name = "manufacturer_id", nullable = false)
-    @JsonBackReference
-    @ReadOnlyProperty
+    @JsonManagedReference
     private CarManufacturer manufacturer;
 
     public static Car fromCarDto(CarDto carDto) {

@@ -1,6 +1,6 @@
 package com.aaronr92.cars.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
@@ -23,7 +23,7 @@ public class CarManufacturer {
     private String name;
 
     @OneToMany(mappedBy = "manufacturer")
-    @JsonManagedReference
+    @JsonBackReference
     @ReadOnlyProperty
     @ToString.Exclude
     private Set<Car> cars;
