@@ -23,17 +23,13 @@ public class CarService {
     private final CarRepository carRepository;
     private final CarManufacturerRepository manufacturerRepository;
 
-    public Car addCar(CarDto car) {
+    public Car addCar(CarDto carDto) {
         CarManufacturer manufacturer = manufacturerRepository.findCarManufacturerByNameIgnoreCase(
-                car.getManufacturer());
+                carDto.getManufacturer());
 
-        Car c = Car.builder()
-                .name(car.getName())
-                .price(car.getPrice())
-                .description(car.getDescription())
-                .power(car.getPower())
-                .manufacturer(manufacturer)
-                .build();
+        Car c = Car.fromCarDto(carDto);
+        c.setManufacturer(manufacturer);
+
         if (carRepository.exists(Example.of(c, ExampleMatcher.matching()
                 .withIgnorePaths("id")
                 .withMatcher("name", ignoreCase())
