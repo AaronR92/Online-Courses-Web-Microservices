@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -34,5 +35,16 @@ public class CustomerController {
     @GetMapping
     public ResponseEntity<Customer> findCustomer(@RequestParam String email) {
         return ResponseEntity.ok(customerService.findCustomerByEmail(email));
+    }
+
+    @GetMapping(path = "{id}/cars")
+    public ResponseEntity<List<Car>> getCustomerCars(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.getCustomerCars(id));
+    }
+
+    @PutMapping(path = "/{id}/cars")
+    public ResponseEntity<List<Long>> updateCustomerCars(@PathVariable Long id,
+                                                      @RequestParam("car_id") Long carId) {
+        return ResponseEntity.ok(customerService.updateCustomerCars(id, carId));
     }
 }

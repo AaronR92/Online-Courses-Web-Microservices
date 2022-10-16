@@ -31,6 +31,7 @@ public class CarService {
 
         if (carRepository.exists(Example.of(car, ExampleMatcher.matching()
                 .withIgnorePaths("id")
+                .withIgnorePaths("manufacturer")
                 .withMatcher("name", ignoreCase())
                 .withMatcher("power", ignoreCase())
                 .withMatcher("description", ignoreCase())))) {
@@ -64,29 +65,22 @@ public class CarService {
     }
 
     public Car updateCar(Long id, CarDto carDto) {
-        Optional<Car> car = carRepository.findById(id);
-
-        if (car.isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "This car does not exist");
+        Car car = findCarById(id);
 
         Car c = Car.fromCarDto(carDto);
 
-        if (!car.get().getManufacturer().getName().equals(carDto.getManufacturer())) {
+        if (!car.getManufacturer().getName().equals(carDto.getManufacturer())) {
             CarManufacturer manufacturer = getManufacturer(carDto.getManufacturer());
             c.setManufacturer(manufacturer);
         }
 
-        c.setId(car.get().getId());
+        c.setId(car.getId());
 
         return carRepository.save(c);
     }
 
     public void deleteCar(Long id) {
-        Optional<Car> car = carRepository.findById(id);
-        if (car.isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Car does not exist");
+        findCarById(id);
 
         carRepository.deleteById(id);
     }
