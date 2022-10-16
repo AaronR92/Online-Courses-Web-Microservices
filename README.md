@@ -2,5 +2,5 @@
 Two microservices:
 * Customer microservice
 * Cars microservice  
-Customer microservice communicates with Cars microservice via RestTemplate
+#### Customer microservice communicates with Cars microservice via RestTemplate
 
