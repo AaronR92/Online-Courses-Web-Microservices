@@ -7,7 +7,7 @@ import lombok.*;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
 import javax.persistence.*;
-import java.time.Year;
+import javax.validation.constraints.Pattern;
 
 @Getter @Setter
 @ToString
@@ -22,6 +22,8 @@ public class Car {
     @ReadOnlyProperty
     private Long id;
 
+    private String model;
+
     private String name;
 
     private String description;
@@ -31,7 +33,11 @@ public class Car {
     private int power;
 
     @JsonProperty("release_year")
-    private Year releaseYear;
+    @Pattern(regexp = "^(19|20)[\\d]{2}$")
+    private int releaseYear;
+
+    @JsonProperty("is_electric")
+    private boolean isElectric;
 
     @ManyToOne
     @JoinColumn(name = "manufacturer_id", nullable = false)
@@ -41,11 +47,13 @@ public class Car {
 
     public static Car fromCarDto(CarDto carDto) {
         return Car.builder()
+                .model(carDto.getModel())
                 .name(carDto.getName())
                 .description(carDto.getDescription())
                 .price(carDto.getPrice())
                 .power(carDto.getPower())
                 .releaseYear(carDto.getReleaseYear())
+                .isElectric(carDto.isElectric())
                 .build();
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -27,7 +28,7 @@ public class CarController {
     }
 
     @PostMapping
-    public ResponseEntity<Car> addNewCar(@RequestBody CarDto carDto) {
+    public ResponseEntity<Car> addNewCar(@Valid @RequestBody CarDto carDto) {
         Car car = carService.addCar(carDto);
         URI uri = URI.create(ServletUriComponentsBuilder
                 .fromCurrentContextPath()
@@ -40,6 +41,13 @@ public class CarController {
     public ResponseEntity<Void> deleteCarById(@PathVariable Long carId) {
         carService.deleteCar(carId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(path = "{id}")
+    public ResponseEntity<Car> updateCar(@PathVariable Long id,
+                                         @RequestBody CarDto carDto) {
+        Car car = carService.updateCar(id, carDto);
+        return ResponseEntity.ok(car);
     }
 
 }

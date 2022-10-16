@@ -24,13 +24,12 @@ public class CarService {
     private final CarManufacturerRepository manufacturerRepository;
 
     public Car addCar(CarDto carDto) {
-        CarManufacturer manufacturer = manufacturerRepository.findCarManufacturerByNameIgnoreCase(
-                carDto.getManufacturer());
+        CarManufacturer manufacturer = getManufacturer(carDto.getManufacturer());
 
-        Car c = Car.fromCarDto(carDto);
-        c.setManufacturer(manufacturer);
+        Car car = Car.fromCarDto(carDto);
+        car.setManufacturer(manufacturer);
 
-        if (carRepository.exists(Example.of(c, ExampleMatcher.matching()
+        if (carRepository.exists(Example.of(car, ExampleMatcher.matching()
                 .withIgnorePaths("id")
                 .withMatcher("name", ignoreCase())
                 .withMatcher("power", ignoreCase())
@@ -39,9 +38,9 @@ public class CarService {
                     "This car already exist");
         }
 
-        manufacturer.addCar(c);
+        manufacturer.addCar(car);
         manufacturerRepository.save(manufacturer);
-        return carRepository.save(c);
+        return carRepository.save(car);
     }
 
     public Car findCarById(Long id) {
@@ -64,6 +63,25 @@ public class CarService {
         return car;
     }
 
+    public Car updateCar(Long id, CarDto carDto) {
+        Optional<Car> car = carRepository.findById(id);
+
+        if (car.isEmpty())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "This car does not exist");
+
+        Car c = Car.fromCarDto(carDto);
+
+        if (!car.get().getManufacturer().getName().equals(carDto.getManufacturer())) {
+            CarManufacturer manufacturer = getManufacturer(carDto.getManufacturer());
+            c.setManufacturer(manufacturer);
+        }
+
+        c.setId(car.get().getId());
+
+        return carRepository.save(c);
+    }
+
     public void deleteCar(Long id) {
         Optional<Car> car = carRepository.findById(id);
         if (car.isEmpty())
@@ -71,5 +89,16 @@ public class CarService {
                     "Car does not exist");
 
         carRepository.deleteById(id);
+    }
+
+    private CarManufacturer getManufacturer(String manufacturerName) {
+        CarManufacturer manufacturer = manufacturerRepository
+                .findCarManufacturerByNameIgnoreCase(manufacturerName);
+
+        if (manufacturer == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "This car manufacturer does not exist");
+
+        return manufacturer;
     }
 }
