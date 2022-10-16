@@ -8,6 +8,7 @@
   <modules>
     <module>customer</module>
     <module>cars</module>
+    <module>eurika-server</module>
   </modules>
   <packaging>pom</packaging>
 
@@ -19,6 +20,7 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <spring.boot.version>2.7.4</spring.boot.version>
+    <spring.cloud-version>2021.0.4</spring.cloud-version>
   </properties>
 
   <dependencyManagement>
@@ -29,6 +31,13 @@
         <version>${spring.boot.version}</version>
         <scope>import</scope>
         <type>pom</type>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring.cloud-version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -45,11 +54,6 @@
       <version>${spring.boot.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-      <version>2.13.4</version>
-    </dependency>
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
       <version>${spring.boot.version}</version>
@@ -59,11 +63,6 @@
       <artifactId>mysql-connector-java</artifactId>
       <scope>runtime</scope>
       <version>8.0.30</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <version>2.0.1.Final</version>
     </dependency>
   </dependencies>
 
